@@ -105,6 +105,47 @@ private void openDialog(CustomItem selectedItem) {
     dialog.showAndWait();
 }
 
+private void showCustomDialog(CustomItem selectedItem) {
+    Alert dialog = new Alert(Alert.AlertType.CONFIRMATION);
+    dialog.setTitle("Custom Dialog");
+
+    GridPane grid = new GridPane();
+    grid.setHgap(10);
+    grid.setVgap(10);
+
+    TextField coverageAmountField = new TextField();
+    TextField dependent1Field = new TextField();
+
+    grid.add(new Label("Coverage Amount:"), 0, 0);
+    grid.add(coverageAmountField, 1, 0);
+    grid.add(new Label("Dependent 1:"), 0, 1);
+    grid.add(dependent1Field, 1, 1);
+
+    dialog.getDialogPane().setContent(grid);
+
+    dialog.setResultConverter(dialogButton -> {
+        if (dialogButton == ButtonType.OK) {
+            // Handle OK button click
+            System.out.println("Coverage Amount: " + coverageAmountField.getText());
+            System.out.println("Dependent 1: " + dependent1Field.getText());
+        }
+        return null;
+    });
+
+    dialog.showAndWait();
+}
+
+// Usage example
+ComboBox<CustomItem> comboBox = new ComboBox<>(customItems);
+
+// Add a listener to the ComboBox to show the dialog when an item is selected
+comboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+    if (newValue != null) {
+        showCustomDialog(newValue);
+    }
+});
+
+
     public static void main(String[] args) {
         launch(args);
     }
