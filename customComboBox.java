@@ -70,39 +70,40 @@ public class ComboBoxWithDialog extends Application {
         primaryStage.show();
     }
 
-    private void openDialog(CustomItem selectedItem) {
-        Alert dialog = new Alert(Alert.AlertType.NONE);
-        dialog.setTitle("Custom Dialog");
+private void openDialog(CustomItem selectedItem) {
+    Alert dialog = new Alert(Alert.AlertType.CONFIRMATION);
+    dialog.setTitle("Custom Dialog");
 
-        GridPane grid = new GridPane();
-        grid.setHgap(10);
-        grid.setVgap(10);
+    GridPane grid = new GridPane();
+    grid.setHgap(10);
+    grid.setVgap(10);
 
-        TextField coverageAmountField = new TextField();
-        TextField dependent1Field = new TextField();
+    TextField coverageAmountField = new TextField();
+    TextField dependent1Field = new TextField();
 
-        grid.add(new Label("Coverage Amount:"), 0, 0);
-        grid.add(coverageAmountField, 1, 0);
-        grid.add(new Label("Dependent 1:"), 0, 1);
-        grid.add(dependent1Field, 1, 1);
+    grid.add(new Label("Coverage Amount:"), 0, 0);
+    grid.add(coverageAmountField, 1, 0);
+    grid.add(new Label("Dependent 1:"), 0, 1);
+    grid.add(dependent1Field, 1, 1);
 
-        dialog.getDialogPane().setContent(grid);
+    dialog.getDialogPane().setContent(grid);
 
-        // Add Save button
-        ButtonType saveButtonType = new ButtonType("Save");
+    // Add Save button only if it's not already added
+    if (!dialog.getButtonTypes().contains(saveButtonType)) {
         dialog.getButtonTypes().addAll(ButtonType.CANCEL, saveButtonType);
-
-        dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == saveButtonType) {
-                // Handle Save button click
-                System.out.println("Coverage Amount: " + coverageAmountField.getText());
-                System.out.println("Dependent 1: " + dependent1Field.getText());
-            }
-            return null;
-        });
-
-        Optional<ButtonType> result = dialog.showAndWait();
     }
+
+    dialog.setResultConverter(dialogButton -> {
+        if (dialogButton == saveButtonType) {
+            // Handle Save button click
+            System.out.println("Coverage Amount: " + coverageAmountField.getText());
+            System.out.println("Dependent 1: " + dependent1Field.getText());
+        }
+        return null;
+    });
+
+    dialog.showAndWait();
+}
 
     public static void main(String[] args) {
         launch(args);
